@@ -1,7 +1,6 @@
 {
   "name": "codap-plugin-starter-project",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@types/jest": "24.0.9",
     "@types/node": "11.9.6",
