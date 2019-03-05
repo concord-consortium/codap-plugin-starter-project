@@ -1,28 +1,43 @@
 import React, { Component } from 'react';
+import { initializePlugin, openTable, addData, createDataContext } from './lib/codap-helper';
 import './App.css';
-import codapInterface from './lib/CodapInterface';
+
+const kPluginName = "Sample Plugin";
+const kVersion = "0.0.1";
+const kInitialDimensions = {
+  width: 200,
+  height: 200
+}
+const kDataContextName = "SamplePluginData";
 
 class App extends Component {
-  componentWillMount() {
-    const interfaceConfig = {
-      name: "Sample Plugin",
-      dimensions: {
-        width: 200,
-        height: 200
-      },
-      version: "0.0.1",
-      customInteractiveStateHandler: true
-    };
-
-    codapInterface.init(interfaceConfig);
+  public componentWillMount() {
+    initializePlugin(kPluginName, kVersion, kInitialDimensions)
+      .then(() => createDataContext(kDataContextName));
   }
 
-  render() {
+  public render() {
     return (
       <div className="App">
         Hello World
+        <div>
+          <button onClick={this.handleOpenTable}>
+            Open Table
+          </button>
+          <button onClick={this.handleCreateData}>
+            Create some data
+          </button>
+        </div>
       </div>
     );
+  }
+
+  private handleOpenTable() {
+    openTable();
+  }
+
+  private handleCreateData() {
+    addData(kDataContextName, [1, 2, 3])
   }
 }
 
