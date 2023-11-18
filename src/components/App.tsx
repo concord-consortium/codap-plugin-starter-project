@@ -43,7 +43,7 @@ export const App = () => {
   console.log("codapResponse", codapResponse);
   return (
     <div className="App">
-      This is the CODAP Starter Plugin
+      CODAP Starter Plugin
       <div className="buttons">
         <button onClick={handleCreateData}>
           Create some data
@@ -54,10 +54,10 @@ export const App = () => {
         <button onClick={handleGetResponse}>
           See getAllItems response
         </button>
-        <div className="response">
-          Response:
-          <div>
-          {codapResponse && `${JSON.stringify(codapResponse, null, "\t")}`}
+        <div className="response-area">
+          <span>Response:</span>
+          <div className="response">
+            {codapResponse && `${JSON.stringify(codapResponse, null, "  ")}`}
           </div>
         </div>
       </div>
