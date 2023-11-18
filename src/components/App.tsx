@@ -40,7 +40,6 @@ export const App = () => {
     setCodapResponse(result);
   };
 
-  console.log("codapResponse", codapResponse);
   return (
     <div className="App">
       CODAP Starter Plugin
