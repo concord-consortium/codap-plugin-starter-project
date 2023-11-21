@@ -28,28 +28,9 @@ const createMessage = (action: string, resource: string, values?: any) => {
   };
 };
 
-// const sendMessage = (action: Action, resource: string, values?: CodapItemValues) => {
-//   const message = createMessage(action, resource, values);
-//   return new Promise((resolve, reject) => {
-//     codapInterface.sendRequest(message, (result: IResult) => {
-//       if (!result) {
-//         reject("Request timeout");
-//       } else if (result?.success) {
-//         console.log(`SUCCESS: Created ${action}. ${JSON.stringify(result)}`);
-//         resolve(result.values);
-//         return (`SUCCESS: Created ${action}. ${JSON.stringify(result)}`);
-//       } else {
-//         const error_message = (result?.values?.error) ?? "unknown error";
-//         console.log(`ERROR: Unable to ${action}. Error: ${error_message}`);
-//         // reject(error_message);
-//         return (`Unable to ${action}. Error: ${error_message}`);
-//       }
-//     });
-//   });
-// };
 const sendMessage = (action: Action, resource: string, values?: CodapItemValues, callback?: (res: IResult) => void) => {
   const message = createMessage(action, resource, values);
-  return codapInterface.sendRequest(message, callback);
+  return codapInterface.sendRequest(message, callback) as unknown as {success: boolean, values?: any};
 };
 
 ////////////// public API //////////////

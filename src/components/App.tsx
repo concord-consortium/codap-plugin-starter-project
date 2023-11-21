@@ -25,12 +25,10 @@ export const App = () => {
   const handleCreateData = async() => {
     const existingDataContext = await getDataContext(kDataContextName);
     let createDC, createNC, createI;
-    if (!existingDataContext) {
+    if (!existingDataContext.success) {
       createDC = await createDataContext(kDataContextName);
-      console.log("existing", existingDataContext, "create", createDC);
     }
-    // const createDC = await createDataContext(kDataContextName);
-    // if (existingDataContext?.sucess || createDC?.success) {
+    if (existingDataContext?.success || createDC?.success) {
       createNC = await createNewCollection(kDataContextName, "Pets", [{name: "type", type: "string"}, {name: "number", type: "number"}]);
       createI = await createItems(kDataContextName, [ {type: "dog", number: 5},
                                       {type: "cat", number: 4},
@@ -39,7 +37,7 @@ export const App = () => {
                                       {type: "bird", number: 8},
                                       {type: "hamster", number: 3}
                                     ]);
-    // }
+    }
 
     setCodapResponse(`Data context created: ${JSON.stringify(createDC)}
                       New collection created: ${JSON.stringify(createNC)}
