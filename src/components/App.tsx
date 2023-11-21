@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {createDataContext, createItems, createNewCollection, createTable, getAllItems, initializePlugin}
+import {createDataContext, createItems, createNewCollection, createTable, getAllItems, getDataContext, initializePlugin}
   from "../scripts/codap-helper";
 import "./App.css";
 
@@ -23,16 +23,28 @@ export const App = () => {
   };
 
   const handleCreateData = async() => {
-    createDataContext(kDataContextName);
-    createNewCollection(kDataContextName, "Pets", [{name: "type", type: "string"}, {name: "number", type: "number"}]);
-    createItems(kDataContextName, [ {type: "dog", number: 5},
-                                    {type: "cat", number: 4},
-                                    {type: "fish", number: 20},
-                                    {type: "horse", number: 1},
-                                    {type: "bird", number: 8},
-                                    {type: "hamster", number: 3}
-                                  ]);
-    setCodapResponse("Data created! Open the table.");
+    const existingDataContext = await getDataContext(kDataContextName);
+    let createDC, createNC, createI;
+    if (!existingDataContext) {
+      createDC = await createDataContext(kDataContextName);
+      console.log("existing", existingDataContext, "create", createDC);
+    }
+    // const createDC = await createDataContext(kDataContextName);
+    // if (existingDataContext?.sucess || createDC?.success) {
+      createNC = await createNewCollection(kDataContextName, "Pets", [{name: "type", type: "string"}, {name: "number", type: "number"}]);
+      createI = await createItems(kDataContextName, [ {type: "dog", number: 5},
+                                      {type: "cat", number: 4},
+                                      {type: "fish", number: 20},
+                                      {type: "horse", number: 1},
+                                      {type: "bird", number: 8},
+                                      {type: "hamster", number: 3}
+                                    ]);
+    // }
+
+    setCodapResponse(`Data context created: ${JSON.stringify(createDC)}
+                      New collection created: ${JSON.stringify(createNC)}
+                      New items created: ${JSON.stringify(createI)}`
+                    );
   };
 
   const handleGetResponse = async () => {

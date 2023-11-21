@@ -28,20 +28,28 @@ const createMessage = (action: string, resource: string, values?: any) => {
   };
 };
 
-const sendMessage = (action: Action, resource: string, values?: CodapItemValues) => {
+// const sendMessage = (action: Action, resource: string, values?: CodapItemValues) => {
+//   const message = createMessage(action, resource, values);
+//   return new Promise((resolve, reject) => {
+//     codapInterface.sendRequest(message, (result: IResult) => {
+//       if (!result) {
+//         reject("Request timeout");
+//       } else if (result?.success) {
+//         console.log(`SUCCESS: Created ${action}. ${JSON.stringify(result)}`);
+//         resolve(result.values);
+//         return (`SUCCESS: Created ${action}. ${JSON.stringify(result)}`);
+//       } else {
+//         const error_message = (result?.values?.error) ?? "unknown error";
+//         console.log(`ERROR: Unable to ${action}. Error: ${error_message}`);
+//         // reject(error_message);
+//         return (`Unable to ${action}. Error: ${error_message}`);
+//       }
+//     });
+//   });
+// };
+const sendMessage = (action: Action, resource: string, values?: CodapItemValues, callback?: (res: IResult) => void) => {
   const message = createMessage(action, resource, values);
-  return new Promise((resolve, reject) => {
-    codapInterface.sendRequest(message, (result: IResult) => {
-      if (!result) {
-        reject("Request timeout");
-      } else if (result?.success) {
-        resolve(result.values);
-      } else {
-        const error_message = (result?.values?.error) ?? "unknown error";
-        reject(error_message);
-      }
-    });
-  });
+  return codapInterface.sendRequest(message, callback);
 };
 
 ////////////// public API //////////////
@@ -96,33 +104,42 @@ export const getListOfDataContexts = () => {
   return sendMessage("get", "dataContextList");
 };
 
-export const getDataContext = (dataContextName: string) => {
-  return sendMessage("get", ctxStr(dataContextName));
+export const getDataContext = async(dataContextName: string) => {
+  const res = await sendMessage("get", ctxStr(dataContextName));
+  console.log("res getDataContext", res);
+  return res;
 };
 
-export const createDataContext = (dataContextName: string) => {
-  // Determine if CODAP already has the Data Context we need.
-  // If not, create it.
-  return codapInterface.sendRequest({
-      action:"create",
-      resource: "dataContext",
-      values: {
-          "name": dataContextName,
-          "title": dataContextName
-        }
-      }, function (result: { success: any; }) {
-      if (result && !result.success) {
-        codapInterface.sendRequest({
-          action: "create",
-          resource: "dataContext",
-          values: {
-            name: dataContextName
-          }
-        });
-      }
-    }
-  );
-};
+export const createDataContext = async (dataContextName: string) => {
+  const res = await sendMessage("create", "dataContext", {name: dataContextName});
+  console.log("res createDataContext", res);
+  return res;
+  // codapInterface.sendRequest({
+  //   action: "create",
+  //   resource: "dataContext",
+  //   values: {
+  //     name: dataContextName
+  //   }
+  // }, function(result_create: { success: any; }) {
+  //     if (result_create && result_create.success) {
+  //       console.log("data context created", result_create);
+  //       return (result_create);
+  //     }
+  // });
+  };
+  // return codapInterface.sendRequest({
+  //       action: "create",
+  //       resource: "dataContext",
+  //       values: {
+  //         name: dataContextName
+  //       }
+  //     }, function(result_create: { success: any; }) {
+  //         if (result_create && result_create.success) {
+  //           console.log("data context created", result_create);
+  //           return (result_create);
+  //         }
+  //     });
+// };
 
 export const createDataContextFromURL = (url: string) => {
   return sendMessage("create", "dataContextFromURL", {"URL": url});
@@ -201,13 +218,13 @@ export const ensureUniqueCollectionName = (dataContextName: string, collectionNa
     "resource": `${ctxStr(dataContextName)}.collection[${uniqueName}]`
   };
 
-  return codapInterface.sendRequest(getCollMessage, (result: IResult) => {
+  return codapInterface.sendRequest(getCollMessage, async (result: IResult) => {
     if (result.success) {
       // guard against run away loops
       if (index >= 100) {
         return undefined;
       }
-      return ensureUniqueCollectionName(dataContextName, collectionName, index + 1);
+      return await ensureUniqueCollectionName(dataContextName, collectionName, index + 1);
     } else {
       return uniqueName;
     }
@@ -252,11 +269,11 @@ export const createCollectionFromAttribute = (dataContextName: string, oldCollec
   // check if a collection for the attribute already exists
   const getCollectionMessage = createMessage("get", `${ctxStr(dataContextName)}.${collStr(attr.name)}`);
 
-  return codapInterface.sendRequest(getCollectionMessage, (result: IResult) => {
+  return codapInterface.sendRequest(getCollectionMessage, async (result: IResult) => {
     // since you can't "re-parent" collections we need to create a temp top level collection, move the attribute,
     // and then check if CODAP deleted the old collection as it became empty and if so rename the new collection
     const moveCollection = result.success;
-    const newCollectionName = moveCollection ? ensureUniqueCollectionName(dataContextName, attr.name, 0) : attr.name;
+    const newCollectionName = moveCollection ? await ensureUniqueCollectionName(dataContextName, attr.name, 0) : attr.name;
     if (newCollectionName === undefined) {
       return;
     }

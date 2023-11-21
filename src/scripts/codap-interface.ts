@@ -195,7 +195,6 @@ export const codapInterface = {
    * @return {Promise} Promise of interactiveState;
    */
   init (iConfig: IConfig, iCallback?: (arg0: any) => void) {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const this_ = this;
     return new Promise(function (resolve: (arg0: any) => void, reject: { (arg0: string): void; (arg0: any): void; }) {
       function getFrameRespHandler(resp: { values: { error: any; savedState: any }; success: boolean }[]) {
