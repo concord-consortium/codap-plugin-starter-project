@@ -87,40 +87,14 @@ export const getListOfDataContexts = () => {
 
 export const getDataContext = async(dataContextName: string) => {
   const res = await sendMessage("get", ctxStr(dataContextName));
-  console.log("res getDataContext", res);
   return res;
 };
 
 export const createDataContext = async (dataContextName: string) => {
   const res = await sendMessage("create", "dataContext", {name: dataContextName});
-  console.log("res createDataContext", res);
   return res;
-  // codapInterface.sendRequest({
-  //   action: "create",
-  //   resource: "dataContext",
-  //   values: {
-  //     name: dataContextName
-  //   }
-  // }, function(result_create: { success: any; }) {
-  //     if (result_create && result_create.success) {
-  //       console.log("data context created", result_create);
-  //       return (result_create);
-  //     }
-  // });
   };
-  // return codapInterface.sendRequest({
-  //       action: "create",
-  //       resource: "dataContext",
-  //       values: {
-  //         name: dataContextName
-  //       }
-  //     }, function(result_create: { success: any; }) {
-  //         if (result_create && result_create.success) {
-  //           console.log("data context created", result_create);
-  //           return (result_create);
-  //         }
-  //     });
-// };
+
 
 export const createDataContextFromURL = (url: string) => {
   return sendMessage("create", "dataContextFromURL", {"URL": url});
