@@ -18,8 +18,9 @@ export const App = () => {
     initializePlugin({pluginName: kPluginName, version: kVersion, dimensions: kInitialDimensions});
   }, []);
 
-  const handleOpenTable = () => {
-    createTable();
+  const handleOpenTable = async () => {
+    const res = await createTable();
+    setCodapResponse(res);
   };
 
   const handleCreateData = async() => {
@@ -40,8 +41,8 @@ export const App = () => {
     }
 
     setCodapResponse(`Data context created: ${JSON.stringify(createDC)}
-                      New collection created: ${JSON.stringify(createNC)}
-                      New items created: ${JSON.stringify(createI)}`
+    New collection created: ${JSON.stringify(createNC)}
+    New items created: ${JSON.stringify(createI)}`
                     );
   };
 

@@ -47,14 +47,15 @@ export const initializePlugin = (options: IInitializePlugin) => {
 
 ////////////// component functions //////////////
 
-export const createTable = () => {
-  codapInterface.sendRequest({
+export const createTable = async () => {
+  const res = await codapInterface.sendRequest({
     action: "create",
     resource: "component",
     values: {
       type: "caseTable"
     }
   });
+  return res;
 };
 
 // Selects this component. In CODAP this will bring this component to the front.
