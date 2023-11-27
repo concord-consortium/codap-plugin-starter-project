@@ -1,21 +1,41 @@
 import React, { useEffect, useState } from "react";
-import {createDataContext, createItems, createNewCollection, createTable, getAllItems, getDataContext, initializePlugin}
-  from "../scripts/codap-helper";
+import {
+  createDataContext,
+  createItems,
+  createNewCollection,
+  createTable,
+  getAllItems,
+  getDataContext,
+  initializePlugin,
+  addComponentListener,
+} from "../scripts/codap-helper";
 import "./App.css";
+import { ClientNotification } from "../scripts/codap-interface";
 
 const kPluginName = "Sample Plugin";
 const kVersion = "0.0.1";
 const kInitialDimensions = {
   width: 380,
-  height: 380
+  height: 680
 };
 const kDataContextName = "SamplePluginData";
 
 export const App = () => {
   const [codapResponse, setCodapResponse] = useState<any>(undefined);
+  const [listenerNotification, setListenerNotification] = useState<string>();
 
   useEffect(() => {
     initializePlugin({pluginName: kPluginName, version: kVersion, dimensions: kInitialDimensions});
+
+    // this is an example of how to add a notification listener to a CODAP component
+    // for more information on listeners and notifications, see
+    // https://github.com/concord-consortium/codap/wiki/CODAP-Data-Interactive-Plugin-API#documentchangenotice
+    const createTableListener = (listenerRes: ClientNotification) => {
+      if (listenerRes.values.operation === "open case table") {
+        setListenerNotification("A case table has been created");
+      }
+    };
+    addComponentListener(createTableListener);
   }, []);
 
   const handleOpenTable = async () => {
@@ -70,6 +90,12 @@ export const App = () => {
             {codapResponse && `${JSON.stringify(codapResponse, null, "  ")}`}
           </div>
         </div>
+      </div>
+      <div className="response-area">
+          <span>Listener Notification:</span>
+          <div className="response">
+            {listenerNotification && listenerNotification}
+          </div>
       </div>
     </div>
   );

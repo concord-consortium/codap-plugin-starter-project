@@ -80,6 +80,10 @@ export const selectSelf = () => {
   });
 };
 
+export const addComponentListener = (callback: ClientHandler) => {
+  codapInterface.on("notify", "component", callback);
+};
+
 ////////////// data context functions //////////////
 
 export const getListOfDataContexts = () => {
