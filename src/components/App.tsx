@@ -8,9 +8,8 @@ import {
   getDataContext,
   initializePlugin,
   addComponentListener,
-} from "../scripts/codap-helper";
+} from "@concord-consortium/codap-plugin-api";
 import "./App.css";
-import { ClientNotification } from "../scripts/codap-interface";
 
 const kPluginName = "Sample Plugin";
 const kVersion = "0.0.1";
@@ -23,6 +22,7 @@ const kDataContextName = "SamplePluginData";
 export const App = () => {
   const [codapResponse, setCodapResponse] = useState<any>(undefined);
   const [listenerNotification, setListenerNotification] = useState<string>();
+  const [dataContext, setDataContext] = useState<any>(null);
 
   useEffect(() => {
     initializePlugin({pluginName: kPluginName, version: kVersion, dimensions: kInitialDimensions});
@@ -30,7 +30,7 @@ export const App = () => {
     // this is an example of how to add a notification listener to a CODAP component
     // for more information on listeners and notifications, see
     // https://github.com/concord-consortium/codap/wiki/CODAP-Data-Interactive-Plugin-API#documentchangenotice
-    const createTableListener = (listenerRes: ClientNotification) => {
+    const createTableListener = (listenerRes: any) => {
       if (listenerRes.values.operation === "open case table") {
         setListenerNotification("A case table has been created");
       }
@@ -39,7 +39,7 @@ export const App = () => {
   }, []);
 
   const handleOpenTable = async () => {
-    const res = await createTable();
+    const res = await createTable(dataContext, kDataContextName);
     setCodapResponse(res);
   };
 
@@ -48,6 +48,7 @@ export const App = () => {
     let createDC, createNC, createI;
     if (!existingDataContext.success) {
       createDC = await createDataContext(kDataContextName);
+      setDataContext(createDC.values);
     }
     if (existingDataContext?.success || createDC?.success) {
       createNC = await createNewCollection(kDataContextName, "Pets", [{name: "type", type: "string"}, {name: "number", type: "number"}]);
