@@ -8,6 +8,7 @@ import {
   getDataContext,
   initializePlugin,
   addComponentListener,
+  ClientNotification,
 } from "@concord-consortium/codap-plugin-api";
 import "./App.css";
 
@@ -30,7 +31,7 @@ export const App = () => {
     // this is an example of how to add a notification listener to a CODAP component
     // for more information on listeners and notifications, see
     // https://github.com/concord-consortium/codap/wiki/CODAP-Data-Interactive-Plugin-API#documentchangenotice
-    const createTableListener = (listenerRes: any) => {
+    const createTableListener = (listenerRes: ClientNotification) => {
       if (listenerRes.values.operation === "open case table") {
         setListenerNotification("A case table has been created");
       }
