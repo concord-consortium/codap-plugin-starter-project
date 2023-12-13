@@ -33,7 +33,7 @@ OR
 
 ## Testing the plugin in CODAP
 
-Currently there is no trivial way to load a plugin running on a local server with `http` into the online CODAP, which forces `https`. One simple solution is to download the latest `build_[...].zip` file from https://codap.concord.org/releases/zips/, extract it to a folder and run it locally. If CODAP is running on port 8081, and this project is running by default on 3000, you can go to
+Currently there is no trivial way to load a plugin running on a local server with `http` into the online CODAP, which forces `https`. One simple solution is to download the latest `build_[...].zip` file from https://codap.concord.org/releases/zips/, extract it to a folder and run it locally. If CODAP is running on port 8081, and this project is running by default on 8080, you can go to
 
 http://127.0.0.1:8081/static/dg/en/cert/index.html?di=http://localhost:8080
 
