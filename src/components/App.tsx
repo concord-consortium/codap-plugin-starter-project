@@ -52,14 +52,18 @@ export const App = () => {
       setDataContext(createDC.values);
     }
     if (existingDataContext?.success || createDC?.success) {
-      createNC = await createNewCollection(kDataContextName, "Pets", [{name: "type", type: "string"}, {name: "number", type: "number"}]);
-      createI = await createItems(kDataContextName, [ {type: "dog", number: 5},
-                                      {type: "cat", number: 4},
-                                      {type: "fish", number: 20},
-                                      {type: "horse", number: 1},
-                                      {type: "bird", number: 8},
-                                      {type: "hamster", number: 3}
-                                    ]);
+      createNC = await createNewCollection(kDataContextName, "Pets", [
+        { name: "animal", type: "categorical" },
+        { name: "count", type: "numeric" }
+      ]);
+      createI = await createItems(kDataContextName, [
+        { animal: "dog", count: 5 },
+        { animal: "cat", count: 4 },
+        { animal: "fish", count: 20 },
+        { animal: "horse", count: 1 },
+        { animal: "bird", count: 2 },
+        { animal: "snake", count: 1 }
+      ]);
     }
 
     setCodapResponse(`Data context created: ${JSON.stringify(createDC)}
