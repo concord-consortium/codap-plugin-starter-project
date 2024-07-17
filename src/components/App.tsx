@@ -7,7 +7,7 @@ import {
   getAllItems,
   getDataContext,
   initializePlugin,
-  addComponentListener,
+  addDataContextChangeListener,
   ClientNotification,
 } from "@concord-consortium/codap-plugin-api";
 import "./App.css";
@@ -31,16 +31,16 @@ export const App = () => {
     // this is an example of how to add a notification listener to a CODAP component
     // for more information on listeners and notifications, see
     // https://github.com/concord-consortium/codap/wiki/CODAP-Data-Interactive-Plugin-API#documentchangenotice
-    const createTableListener = (listenerRes: ClientNotification) => {
-      if (listenerRes.values.operation === "open case table") {
-        setListenerNotification("A case table has been created");
+    const casesUpdatedListener = (listenerRes: ClientNotification) => {
+      if (listenerRes.values.operation === "updateCases") {
+        setListenerNotification(JSON.stringify(listenerRes.values.result));
       }
     };
-    addComponentListener(createTableListener);
+    addDataContextChangeListener(kDataContextName, casesUpdatedListener);
   }, []);
 
   const handleOpenTable = async () => {
-    const res = await createTable(dataContext, kDataContextName);
+    const res = await createTable(kDataContextName);
     setCodapResponse(res);
   };
 
@@ -66,10 +66,11 @@ export const App = () => {
       ]);
     }
 
-    setCodapResponse(`Data context created: ${JSON.stringify(createDC)}
-    New collection created: ${JSON.stringify(createNC)}
-    New items created: ${JSON.stringify(createI)}`
-                    );
+    setCodapResponse(`
+      Data context created: ${JSON.stringify(createDC)}
+      New collection created: ${JSON.stringify(createNC)}
+      New items created: ${JSON.stringify(createI)}
+    `);
   };
 
   const handleGetResponse = async () => {
@@ -84,7 +85,7 @@ export const App = () => {
         <button onClick={handleCreateData}>
           Create some data
         </button>
-        <button onClick={handleOpenTable}>
+        <button onClick={handleOpenTable} disabled={!dataContext}>
           Open Table
         </button>
         <button onClick={handleGetResponse}>
