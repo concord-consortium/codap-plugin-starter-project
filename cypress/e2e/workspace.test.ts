@@ -7,7 +7,9 @@ context("Test the overall app", () => {
 
   describe("Desktop functionalities", () => {
     it("renders with text", () => {
-      ae.getApp().should("have.text", "Hello World");
+      // Since the cypress tests are not running in CODAP, the plugin will not receive responses to API requests,
+      // which might cause errors that will display in an overlay, failing the tests.
+      ae.getApp().should("contain.text", "CODAP Starter Plugin");
     });
   });
 });
