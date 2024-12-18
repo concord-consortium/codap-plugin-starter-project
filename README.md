@@ -20,7 +20,10 @@ This is a bare-bones React project, created with the `--typescript` version of [
     npm update
     npm start
     ```
-    The browser should automatically open [localhost:3000](http://localhost:3000). Checking for the words "Hello World".
+    The browser should automatically open [localhost:8080](http://localhost:8080) (or 8081 if you are already using 8080). Checking for the words "CODAP Starter Plugin".
+
+    It's ok if you see an error like `handleResponse: CODAP request timed out: [{"action":"update","resource":"interactiveFrame","values":{"name":"Sample Plugin","version":"0.0.1","dimensions":{"width":380,"height":680}}},{"action":"get","resource":"interactiveFrame"}]`. This just means that the plugin is running outside of Codap, so is not receiving responses to API requests, which is expected.
+    
     Also verify that the test suite still passes:
     ```
     npm run test

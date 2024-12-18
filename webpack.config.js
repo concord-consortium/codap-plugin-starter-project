@@ -65,7 +65,12 @@ module.exports = (env, argv) => {
               }
             },
             'postcss-loader',
-            'sass-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                api: 'modern'
+              }
+            }
           ]
         },
         {
