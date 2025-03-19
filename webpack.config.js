@@ -19,7 +19,9 @@ module.exports = (env, argv) => {
   return {
     context: __dirname, // to automatically find tsconfig.json
     devServer: {
-      static: 'dist',
+      static: {
+        directory: path.join(__dirname, 'dist'),
+      },
       hot: true,
       headers: {
         'Access-Control-Allow-Origin': '*'
@@ -29,7 +31,13 @@ module.exports = (env, argv) => {
         options: {
           key: path.resolve(os.homedir(), '.localhost-ssl/localhost.key'),
           cert: path.resolve(os.homedir(), '.localhost-ssl/localhost.pem'),
-        }
+        },
+      },
+      client: {
+        overlay: {
+          errors: true,
+          warnings: false,
+        },
       },
     },
     devtool: devMode ? 'eval-cheap-module-source-map' : 'source-map',
@@ -133,7 +141,7 @@ module.exports = (env, argv) => {
       ]
     },
     resolve: {
-      extensions: [ '.ts', '.tsx', '.js' ],
+      extensions: ['.ts', '.tsx', '.js'],
     },
     stats: {
       // suppress "export not found" warnings about re-exported types

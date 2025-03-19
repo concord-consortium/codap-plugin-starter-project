@@ -26,7 +26,7 @@ export const App = () => {
   const [dataContext, setDataContext] = useState<any>(null);
 
   useEffect(() => {
-    initializePlugin({pluginName: kPluginName, version: kVersion, dimensions: kInitialDimensions});
+    initializePlugin({ pluginName: kPluginName, version: kVersion, dimensions: kInitialDimensions });
 
     // this is an example of how to add a notification listener to a CODAP component
     // for more information on listeners and notifications, see
@@ -94,14 +94,14 @@ export const App = () => {
         <div className="response-area">
           <span>Response:</span>
           <div className="response">
-            {codapResponse && `${JSON.stringify(codapResponse, null, "  ")}`}
+            { codapResponse && `${JSON.stringify(codapResponse, null, "  ")}` }
           </div>
         </div>
       </div>
       <div className="response-area">
           <span>Listener Notification:</span>
           <div className="response">
-            {listenerNotification && listenerNotification}
+            { listenerNotification && listenerNotification }
           </div>
       </div>
     </div>
