@@ -18,11 +18,11 @@
   .response-area {
     display: flex;
     flex-direction: column;
-    span {
-      position: relative;
-      top: 0;
-      left: 0;
+    h2 {
+      font-size: large;
+      margin: 0px;
     }
+
     .response {
       resize: vertical;
       min-height: 2em;
