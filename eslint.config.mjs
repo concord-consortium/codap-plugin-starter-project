@@ -21,7 +21,13 @@ import playwright from "eslint-plugin-playwright";
 export default typescriptEslint.config(
   {
     name: "ignore dist and node_modules",
-    ignores: ["dist/", "node_modules/", ".vscode/", "playwright-report/"]
+    ignores: [
+      "dist/",
+      "node_modules/",
+      ".vscode/",
+      "playwright-report/",
+      "test-results/"
+    ]
   },
   js.configs.recommended,
   tsConfigs.recommended,
@@ -164,12 +170,11 @@ export default typescriptEslint.config(
     }
   },
   {
-    ...playwright.configs["flat/recommended"],
     name: "rules specific to Playwright tests",
     files: ["playwright/**"],
-    rules: {
-      ...playwright.configs["flat/recommended"].rules
-    }
+    extends: [
+      playwright.configs["flat/recommended"]
+    ]
   },
   {
     name: "json files",

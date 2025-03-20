@@ -13,12 +13,7 @@ const coverageReporter: ReporterDescription = [
        by the two prefixes. */
     exclude: [
       /* Ignore all coverage of the CODAP application itself. */
-      "codap3/src/**", "codap3/webpack/**",
-      /* This repository has a copy of many of the CODAP files which it uses like a
-         library to handle its dataset and add the legend component. These files are
-         identical to the files in CODAP and should be tested there not here. So we
-         ignore them here. */
-      "codap-plugin-starter-project/src/codap/**"
+      "codap3/src/**", "codap3/webpack/**"
     ],
     /* Modify the paths of files on which coverage is reported. This is run after
        the exclude filter, so it does not get any of the codap3 files.
@@ -33,7 +28,7 @@ const coverageReporter: ReporterDescription = [
         .replace(/\?[0-9a-z]+$/,"");
     },
     /* Directory in which to write coverage reports */
-    resultDir: path.join(__dirname, "playwright", "coverage"),
+    resultDir: path.join(__dirname, "test-results", "coverage"),
     /* Configure the reports to generate.
        The value is an array of istanbul reports, with optional configuration attached. */
     reports: [
@@ -62,7 +57,7 @@ const coverageReporter: ReporterDescription = [
 /* We report json in CI so the `daun/playwright-report-summary` action can add a summary of
    the results to a PR comment. */
 const reportJson = !!process.env.CI;
-const jsonReporter: ReporterDescription = ["json", { outputFile: path.join("playwright", "results.json") }];
+const jsonReporter: ReporterDescription = ["json", { outputFile: path.join("test-results", "results.json") }];
 
 /**
  * See https://playwright.dev/docs/test-configuration.
