@@ -20,8 +20,20 @@ const coverageReporter: ReporterDescription = [
          ignore them here. */
       "codap-plugin-starter-project/src/codap/**"
     ],
+    /* Modify the paths of files on which coverage is reported. This is run after
+       the exclude filter, so it does not get any of the codap3 files.
+       The paths returned by the v8 coverage have two issues which at least make them
+       break the html report. They have an extra prefix of the project name so they
+       look like `codap-plugin-starter-project/codap-plugin-starter-project/src`. They
+       have a suffix like `?[random string]` like `App.tsx?c341`. */
+    rewritePath: ({absolutePath}) => {
+      // It isn't clear if this is before or after the exclude rule
+      return (absolutePath as string)
+        .replace("codap-plugin-starter-project/", "")
+        .replace(/\?[0-9a-z]+$/,"");
+    },
     /* Directory in which to write coverage reports */
-    resultDir: path.join(__dirname, "results/e2e-coverage"),
+    resultDir: path.join(__dirname, "playwright", "coverage"),
     /* Configure the reports to generate.
        The value is an array of istanbul reports, with optional configuration attached. */
     reports: [
@@ -50,7 +62,7 @@ const coverageReporter: ReporterDescription = [
 /* We report json in CI so the `daun/playwright-report-summary` action can add a summary of
    the results to a PR comment. */
 const reportJson = !!process.env.CI;
-const jsonReporter: ReporterDescription = ["json", { outputFile: "results.json" }];
+const jsonReporter: ReporterDescription = ["json", { outputFile: path.join("playwright", "results.json") }];
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -68,6 +80,7 @@ export default defineConfig<PlaywrightCoverageOptions>({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     [ "html" ],
+    [ "list" ],
     ...(collectCoverage ? [coverageReporter] : []),
     ...(reportJson ? [jsonReporter] : []),
   ],

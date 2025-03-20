@@ -43,5 +43,5 @@ jobs:
     - uses: daun/playwright-report-summary@v3
       if: always()
       with:
-        report-file: results.json
+        report-file: playwright/results.json
         report-url: https://models-resources.concord.org/codap-plugin-starter-project/playwright-report/${{ steps.s3-deploy-path.outputs.deployPath }}/

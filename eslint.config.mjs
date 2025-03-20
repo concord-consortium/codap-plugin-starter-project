@@ -21,7 +21,7 @@ import playwright from "eslint-plugin-playwright";
 export default typescriptEslint.config(
   {
     name: "ignore dist and node_modules",
-    ignores: ["dist/", "node_modules/", ".vscode/", "old.*"]
+    ignores: ["dist/", "node_modules/", ".vscode/", "playwright-report/"]
   },
   js.configs.recommended,
   tsConfigs.recommended,
