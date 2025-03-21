@@ -13,15 +13,21 @@ import typescriptEslint, { configs as tsConfigs } from "typescript-eslint";
 import js from "@eslint/js";
 import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import { flatConfigs as importPluginConfig } from "eslint-plugin-import";
-import pluginCypress from "eslint-plugin-cypress/flat";
+import playwright from "eslint-plugin-playwright";
 
-// This helper `config()` function replaces the basic [] used by 
+// This helper `config()` function replaces the basic [] used by
 // eslint normally:
 // https://typescript-eslint.io/packages/typescript-eslint#config
 export default typescriptEslint.config(
   {
     name: "ignore dist and node_modules",
-    ignores: ["dist/", "node_modules/", ".vscode/", "old.*"]  
+    ignores: [
+      "dist/",
+      "node_modules/",
+      ".vscode/",
+      "playwright-report/",
+      "test-results/"
+    ]
   },
   js.configs.recommended,
   tsConfigs.recommended,
@@ -84,8 +90,8 @@ export default typescriptEslint.config(
       "eqeqeq": ["error", "smart"],
       "@eslint-community/eslint-comments/no-unused-disable": "off",   // enabled in eslint.build.config.mjs
       // Note: this has caused slowdowns in large projects
-      "import/no-cycle": "warn",      
-      // Note: this has caused problems with overridden or aliased dependencies 
+      "import/no-cycle": "warn",
+      // Note: this has caused problems with overridden or aliased dependencies
       // like the Concord mobx-state-tree override
       "import/no-extraneous-dependencies": "warn",
       "import/no-useless-path-segments": "warn",
@@ -99,7 +105,7 @@ export default typescriptEslint.config(
       "no-tabs": "error",
       "no-unneeded-ternary": "error",
       // there is a recommended typescript rule for this too, so this might be redundant
-      "no-unused-expressions": ["error", { allowShortCircuit: true }], 
+      "no-unused-expressions": ["error", { allowShortCircuit: true }],
       "no-unused-vars": "off",  // superseded by @typescript-eslint/no-unused-vars
       "no-useless-call": "error",
       "no-useless-concat": "error",
@@ -128,10 +134,10 @@ export default typescriptEslint.config(
   },
   // The projectService is required to use the @typescript-eslint/prefer-optional-chain rule
   // The projectService does not work well with files that aren't configured by a tsconfig.json
-  // file, so we only apply it to the files in src and cypress.
+  // file, so we only apply it to the files in src and playwright.
   {
-    name: "rules only for project and cypress typescript files",
-    files: ["src/**/*.ts", "src/**/*.tsx", "cypress/**/*.ts", "cypress/**/*.tsx"],
+    name: "rules only for project and playwright typescript files",
+    files: ["src/**/*.ts", "src/**/*.tsx", "playwright/**/*.ts", "playwright/**/*.tsx"],
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -163,40 +169,34 @@ export default typescriptEslint.config(
       "jest/no-done-callback": "off"
     }
   },
-  { 
-    name: "rules specific to Cypress tests",
-    files: ["cypress/**"],
+  {
+    name: "rules specific to Playwright tests",
+    files: ["playwright/**"],
     extends: [
-      pluginCypress.configs.recommended
-    ],
-    rules: {
-      "@typescript-eslint/no-require-imports": "off",
-      "@typescript-eslint/no-non-null-assertion": "off",
-      "@typescript-eslint/no-var-requires": "off",
-      "cypress/no-unnecessary-waiting": "off"
-    }
+      playwright.configs["flat/recommended"]
+    ]
   },
   {
     name: "json files",
     files: ["**/*.json"],
     ...json.configs.recommended
   },
-  { 
+  {
     name: "eslint configs",
     files: ["eslint.*.mjs"],
     languageOptions: {
       globals: {
         ...globals.node
-      },      
+      },
     },
-  },    
+  },
   {
     name: "webpack configs",
     files: ["webpack.config.js"],
     languageOptions: {
       globals: {
         ...globals.node
-      },      
+      },
     },
     rules: {
       "@typescript-eslint/no-require-imports": "off",
@@ -210,7 +210,7 @@ export default typescriptEslint.config(
     languageOptions: {
       globals: {
         ...globals.node
-      },      
+      },
     },
     rules: {
       "@typescript-eslint/no-require-imports": "off",

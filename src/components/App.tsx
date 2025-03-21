@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useId, useState } from "react";
 import {
   createDataContext,
   createItems,
@@ -24,6 +24,8 @@ export const App = () => {
   const [codapResponse, setCodapResponse] = useState<any>(undefined);
   const [listenerNotification, setListenerNotification] = useState<string>();
   const [dataContext, setDataContext] = useState<any>(null);
+  const responseId = useId();
+  const notificationId = useId();
 
   useEffect(() => {
     initializePlugin({ pluginName: kPluginName, version: kVersion, dimensions: kInitialDimensions });
@@ -92,17 +94,17 @@ export const App = () => {
           See getAllItems response
         </button>
         <div className="response-area">
-          <span>Response:</span>
-          <div className="response">
+          <label htmlFor={responseId}>Response:</label>
+          <output id={responseId} className="response">
             { codapResponse && `${JSON.stringify(codapResponse, null, "  ")}` }
-          </div>
+          </output>
         </div>
       </div>
       <div className="response-area">
-          <span>Listener Notification:</span>
-          <div className="response">
-            { listenerNotification && listenerNotification }
-          </div>
+        <label htmlFor={notificationId}>Listener Notification:</label>
+        <output id={notificationId} className="response">
+          { listenerNotification && listenerNotification }
+        </output>
       </div>
     </div>
   );
