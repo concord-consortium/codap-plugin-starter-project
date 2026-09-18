@@ -2,6 +2,10 @@
 
 This is a bare-bones React project. It contains a simple React view with the libraries for using the [CODAP Plugin API](https://github.com/concord-consortium/codap/wiki/CODAP-Data-Interactive-Plugin-API).
 
+## Deployment
+
+S3 deployment is handled by GitHub Actions using OIDC for AWS authentication. See [deploy-setup.md in starter-projects](https://github.com/concord-consortium/starter-projects/blob/main/doc/deploy-setup.md) for how the AWS side is set up, and [doc/deploy.md](doc/deploy.md) for how deploys work in this repo.
+
 # Copying from the starter project
 
 ## Create a new repository
@@ -52,7 +56,7 @@ There are two ways to create a new repository from this template:
 8. Search and replace instances of `codap-plugin-starter-project` with `new-repository`.
 9. Search and replace instances of `CODAP Starter Plugin` and `CODAP Plugin Starter Project` with `New Plugin`.
 10. Update the general description of the project in the first section above.
-11. [Setup AWS keys for S3 Deployment](https://docs.google.com/document/d/1VqEwnHcmv5EnGq4fQI7l6zur_rV4F-BdKYEy4LdDjY4/edit?pli=1&tab=t.0). This is so the GitHub actions can deploy to S3 and save the Playwright results.
+11. Set up AWS access for S3 deployment. From your new repository, run the `create-deploy-role.sh` script described in [deploy-setup.md in starter-projects](https://github.com/concord-consortium/starter-projects/blob/main/doc/deploy-setup.md). This is so the GitHub actions can deploy to S3 and save the Playwright results.
 12. Configure the Codecov token.
     1. Find the new repository at https://app.codecov.io/gh/concord-consortium
     2. Choose the repository token option
