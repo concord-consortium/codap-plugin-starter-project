@@ -1,6 +1,6 @@
 # Deployment
 
-S3 deployment is handled by GitHub Actions. Pushes are deployed to `models-resources/codap-plugin-starter-project/` by the `s3-deploy` job in [`ci.yml`](../.github/workflows/ci.yml). The Playwright test report is uploaded to `models-resources/codap-plugin-starter-project/playwright-report/` by [`playwright.yml`](../.github/workflows/playwright.yml).
+S3 deployment is handled by GitHub Actions. Pushes are deployed under `models-resources/codap-plugin-starter-project/` by the `s3-deploy` job in [`ci.yml`](../.github/workflows/ci.yml). The Playwright test report is uploaded to `models-resources/codap-plugin-starter-project/playwright-report/...` by [`playwright.yml`](../.github/workflows/playwright.yml).
 
 ## AWS Access
 

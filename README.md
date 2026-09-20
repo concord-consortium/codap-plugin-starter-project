@@ -56,7 +56,15 @@ There are two ways to create a new repository from this template:
 8. Search and replace instances of `codap-plugin-starter-project` with `new-repository`.
 9. Search and replace instances of `CODAP Starter Plugin` and `CODAP Plugin Starter Project` with `New Plugin`.
 10. Update the general description of the project in the first section above.
-11. Set up AWS access for S3 deployment. From your new repository, run the `create-deploy-role.sh` script described in [deploy-setup.md in starter-projects](https://github.com/concord-consortium/starter-projects/blob/main/doc/deploy-setup.md). This is so the GitHub actions can deploy to S3 and save the Playwright results.
+11. Set up AWS access for S3 deployment. This is so the GitHub actions can deploy to S3 and save the Playwright results. From your new repository's root directory, run:
+    ```sh
+    curl -fsSL \
+      https://raw.githubusercontent.com/concord-consortium/starter-projects/main/scripts/create-deploy-role.sh \
+      -o /tmp/create-deploy-role.sh
+    chmod +x /tmp/create-deploy-role.sh
+    /tmp/create-deploy-role.sh new-repository
+    ```
+    Running this with your new repository as your current directory lets the script automatically fill in `role-to-assume` in `.github/workflows/ci.yml` and `playwright.yml` with the correct ARN. See [deploy-setup.md in starter-projects](https://github.com/concord-consortium/starter-projects/blob/main/doc/deploy-setup.md) for details.
 12. Configure the Codecov token.
     1. Find the new repository at https://app.codecov.io/gh/concord-consortium
     2. Choose the repository token option
