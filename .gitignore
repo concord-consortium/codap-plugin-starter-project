@@ -9,9 +9,13 @@
 # production
 /build
 /dist
+/top-test
 
 # OS
 .DS_Store
+
+# Editors
+.idea
 
 # Logs
 npm-debug.log*
