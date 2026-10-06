@@ -20,6 +20,10 @@ const kInitialDimensions = {
 };
 const kDataContextName = "SamplePluginData";
 
+// CODAP Plugin API requests reject with an Error when CODAP doesn't answer,
+// for example when the plugin is opened outside of CODAP.
+const errorMessage = (error: unknown) => error instanceof Error ? error.message : String(error);
+
 export const App = () => {
   const [codapResponse, setCodapResponse] = useState<any>(undefined);
   const [listenerNotification, setListenerNotification] = useState<string>();
@@ -28,7 +32,8 @@ export const App = () => {
   const notificationId = useId();
 
   useEffect(() => {
-    initializePlugin({ pluginName: kPluginName, version: kVersion, dimensions: kInitialDimensions });
+    initializePlugin({ pluginName: kPluginName, version: kVersion, dimensions: kInitialDimensions })
+      .catch((error) => console.error("Unable to connect to CODAP:", errorMessage(error)));
 
     // this is an example of how to add a notification listener to a CODAP component
     // for more information on listeners and notifications, see
@@ -42,11 +47,15 @@ export const App = () => {
   }, []);
 
   const handleOpenTable = async () => {
-    const res = await createTable(kDataContextName);
-    setCodapResponse(res);
+    try {
+      const res = await createTable(kDataContextName);
+      setCodapResponse(res);
+    } catch (error) {
+      setCodapResponse(`Error: ${errorMessage(error)}`);
+    }
   };
 
-  const handleCreateData = async() => {
+  const createData = async () => {
     const existingDataContext = await getDataContext(kDataContextName);
     let createDC, createNC, createI;
     if (!existingDataContext.success) {
@@ -75,9 +84,21 @@ export const App = () => {
     `);
   };
 
+  const handleCreateData = async () => {
+    try {
+      await createData();
+    } catch (error) {
+      setCodapResponse(`Error: ${errorMessage(error)}`);
+    }
+  };
+
   const handleGetResponse = async () => {
-    const result = await getAllItems(kDataContextName);
-    setCodapResponse(result);
+    try {
+      const result = await getAllItems(kDataContextName);
+      setCodapResponse(result);
+    } catch (error) {
+      setCodapResponse(`Error: ${errorMessage(error)}`);
+    }
   };
 
   return (
