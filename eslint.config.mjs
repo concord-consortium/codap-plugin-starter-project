@@ -1,7 +1,6 @@
 // @ts-check
 
 import stylisticEslintPlugin from "@stylistic/eslint-plugin";
-import stylisticJs from "@stylistic/eslint-plugin-js";
 import globals from "globals";
 import jest from "eslint-plugin-jest";
 import json from "eslint-plugin-json";
@@ -50,7 +49,6 @@ export default typescriptEslint.config(
     name: "general rules",
     plugins: {
       "@stylistic": stylisticEslintPlugin,
-      "@stylistic/js": stylisticJs,
     },
     languageOptions: {
       parser: tsParser,
@@ -95,7 +93,7 @@ export default typescriptEslint.config(
       // like the Concord mobx-state-tree override
       "import/no-extraneous-dependencies": "warn",
       "import/no-useless-path-segments": "warn",
-      "@stylistic/js/jsx-quotes": ["error", "prefer-double"],
+      "@stylistic/jsx-quotes": ["error", "prefer-double"],
       "max-len": ["warn", { code: 120, ignoreUrls: true }],
       "no-bitwise": "error",
       "no-debugger": "off",
