@@ -95,6 +95,10 @@ export default defineConfig<PlaywrightCoverageOptions>({
 
     /* Only collect coverage information if we are running in CI */
     collectCoverage,
+
+    /* Newer Chromium blocks a public site (CODAP) from loading an iframe from localhost
+       unless Local Network Access is allowed. The plugin runs on https://localhost:8080. */
+    permissions: ["local-network-access"],
   },
 
   /* Configure projects for major browsers */
