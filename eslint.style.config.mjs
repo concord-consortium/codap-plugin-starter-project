@@ -6,6 +6,7 @@ import baseConfig from "./eslint.config.mjs";
 export default defineConfig(
   ...baseConfig,
   {
+    files: ["**/*.{js,mjs,ts,tsx,jsx}"],
     rules: {
       "@stylistic/array-bracket-spacing": ["error", "never"],
       "@stylistic/object-curly-spacing": ["error", "always"],
