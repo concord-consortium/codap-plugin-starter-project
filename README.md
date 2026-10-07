@@ -49,7 +49,7 @@ There are two ways to create a new repository from this template:
 3. Run `npm start` to start the `webpack-dev-server` in development mode with hot module replacement
 4. Open [localhost:8080](http://localhost:8080) (or use port 8081 if you are already using 8080). You should see a basic plugin with a heading of "CODAP Starter Plugin".
 
-   It's ok if you see an error like `handleResponse: CODAP request timed out: [{"action":"update","resource":"interactiveFrame","values":{"name":"Sample Plugin","version":"0.0.1","dimensions":{"width":380,"height":680}}},{"action":"get","resource":"interactiveFrame"}]`. This just means that the plugin is running outside of Codap, so is not receiving responses to API requests, which is expected.
+   It's ok if you see an error like `Unable to connect to CODAP: handleResponse: CODAP request timed out: [{"action":"update","resource":"interactiveFrame","values":{"name":"Sample Plugin","version":"0.0.1","dimensions":{"width":380,"height":680}}},{"action":"get","resource":"interactiveFrame"}]`. This just means that the plugin is running outside of CODAP, so is not receiving responses to API requests, which is expected. For the same reason, the buttons will show an error like `sendRequest on closed CODAP connection` in the Response area.
 5. Run `npm test` to verify that the test suite still passes.
 6. Run `npx playwright install` to install the playwright browsers
 7. Run `npm run test:playwright` to verify the playwright tests still pass. The Playwright tests verify that the plugin works correctly inside CODAP.
@@ -87,7 +87,7 @@ Your new repository is ready!
 3. Run the development server `npm start`.
 4. Open [localhost:8080](http://localhost:8080) (or use port 8081 if you are already using 8080). You should see a basic plugin with a heading of "CODAP Starter Plugin".
 
-   It's ok if you see an error like `handleResponse: CODAP request timed out: [{"action":"update","resource":"interactiveFrame","values":{"name":"Sample Plugin","version":"0.0.1","dimensions":{"width":380,"height":680}}},{"action":"get","resource":"interactiveFrame"}]`. This just means that the plugin is running outside of Codap, so is not receiving responses to API requests, which is expected.
+   It's ok if you see an error like `Unable to connect to CODAP: handleResponse: CODAP request timed out: [{"action":"update","resource":"interactiveFrame","values":{"name":"Sample Plugin","version":"0.0.1","dimensions":{"width":380,"height":680}}},{"action":"get","resource":"interactiveFrame"}]`. This just means that the plugin is running outside of CODAP, so is not receiving responses to API requests, which is expected. For the same reason, the buttons will show an error like `sendRequest on closed CODAP connection` in the Response area.
 
 ## Testing
 
