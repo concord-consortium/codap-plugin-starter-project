@@ -64,7 +64,7 @@ There are two ways to create a new repository from this template:
     chmod +x /tmp/create-deploy-role.sh
     /tmp/create-deploy-role.sh new-repository
     ```
-    Running this with your new repository as your current directory lets the script automatically fill in `role-to-assume` in `.github/workflows/ci.yml` and `playwright.yml` with the correct ARN. See [deploy-setup.md in starter-projects](https://github.com/concord-consortium/starter-projects/blob/main/doc/deploy-setup.md) for details.
+    Running this with your new repository as your current directory lets the script automatically fill in `role-to-assume` in `.github/workflows/ci.yml`, `playwright.yml`, and `release.yml` with the correct ARN. See [deploy-setup.md in starter-projects](https://github.com/concord-consortium/starter-projects/blob/main/doc/deploy-setup.md) for details.
 12. Configure the Codecov token.
     1. Find the new repository at https://app.codecov.io/gh/concord-consortium
     2. Choose the repository token option

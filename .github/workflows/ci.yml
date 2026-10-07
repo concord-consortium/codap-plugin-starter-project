@@ -3,6 +3,8 @@ name: Continuous Integration
 on:
   push:
     branches: [main]
+    # Tag pushes build the version/[tag] folder that release.yml promotes
+    tags: ["*"]
   pull_request:
 
 jobs:
