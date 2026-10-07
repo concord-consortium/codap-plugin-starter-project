@@ -62,14 +62,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/concord-consortium/starter-projects.git"
+    "url": "git+https://github.com/concord-consortium/codap-plugin-starter-project.git"
   },
   "author": "Concord Consortium",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/concord-consortium/starter-projects/issues"
+    "url": "https://github.com/concord-consortium/codap-plugin-starter-project/issues"
   },
-  "homepage": "https://github.com/concord-consortium/starter-projects#readme",
+  "homepage": "https://github.com/concord-consortium/codap-plugin-starter-project#readme",
   "devDependencies": {
     "@bgotink/playwright-coverage": "^0.3.2",
     "@eslint-community/eslint-plugin-eslint-comments": "^4.4.1",
