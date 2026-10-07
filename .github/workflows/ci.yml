@@ -1,6 +1,9 @@
 name: Continuous Integration
 
-on: push
+on:
+  push:
+    branches: [main]
+  pull_request:
 
 jobs:
   build_test:
@@ -16,7 +19,7 @@ jobs:
       - name: Run Tests
         run: npm run test:coverage -- --runInBand
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           flags: jest
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -48,4 +51,4 @@ jobs:
           # Parameters to GHActions have to be strings, so a regular yaml array cannot
           # be used. Instead the `|` turns the following lines into a string
           topBranches: |
-            ["master"]
+            ["main"]
